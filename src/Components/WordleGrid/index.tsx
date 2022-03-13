@@ -2,6 +2,7 @@ import {useState, useEffect, useMemo } from 'react';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import WordleSolver from '../../WordleSolver/wordlesolver';
 import WordleWord from '../WordleWord';
 import styled from 'styled-components';
@@ -41,6 +42,14 @@ const ButtonContainer = styled.div`
   margin-top: 25px;
   justify-content: space-around;
 `
+const MobileButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  width: 50%;
+  margin-top: 25px;
+  justify-content: space-around;
+`
 
 const GameOverMessage = styled.div`
   width: 90%;
@@ -66,6 +75,7 @@ const WordleGrid = ({ words }: Props) => {
   const [clueArray, setClueArray] = useState(JSON.parse(JSON.stringify(initialClueArray)));
   const [gameOver, setGameOver] = useState(false);
   const [error, setError] = useState('');
+  const matches = useMediaQuery('(min-width:600px)');
 
   const wordleSolver = useMemo(() => new WordleSolver(words), [words]);
 
@@ -157,29 +167,56 @@ console.log(wordGuesses)
       ))}
     </Board>
     </Paper>
-    <ButtonContainer>
-      <Button 
-        variant='contained' 
-        color='primary'
-        onClick={handleSubmitHints}
-      >
-        Apply Hints
-      </Button>
-      <Button 
-        variant='contained'
-        color='success'
-        onClick={handleWin}
-      >
-        That's Correct!
-      </Button>
-      <Button 
-        variant='contained' 
-        color='warning'
-        onClick={handleReset}
-      >
-        Reset Game
-      </Button>
+    {matches ? (
+      <ButtonContainer>
+        <Button 
+          variant='contained' 
+          color='primary'
+          onClick={handleSubmitHints}
+        >
+          Apply Hints
+        </Button>
+        <Button 
+          variant='contained'
+          color='success'
+          onClick={handleWin}
+        >
+          That's Correct!
+        </Button>
+        <Button 
+          variant='contained' 
+          color='warning'
+          onClick={handleReset}
+        >
+          Reset Game
+        </Button>
       </ButtonContainer>
+    ): (
+      <MobileButtonContainer>
+        <Button 
+          variant='contained' 
+          color='primary'
+          onClick={handleSubmitHints}
+        >
+          Apply Hints
+        </Button>
+        <Button 
+          variant='contained'
+          color='success'
+          onClick={handleWin}
+        >
+          That's Correct!
+        </Button>
+        <Button 
+          variant='contained' 
+          color='warning'
+          onClick={handleReset}
+        >
+          Reset Game
+        </Button>
+      </MobileButtonContainer>
+    )}
+    
       { gameOver && (
       <GameOverMessage>
         {
