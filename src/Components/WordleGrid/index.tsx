@@ -48,6 +48,7 @@ const MobileButtonContainer = styled.div`
   height: 150px;
   width: 50%;
   margin-top: 25px;
+  margin-bottom: 25px;
   justify-content: space-around;
 `
 
