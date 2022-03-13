@@ -11,7 +11,7 @@ const Game = styled.div`
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
-  height: calc(100vh - 50px);
+  min-height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
 `;
@@ -20,7 +20,7 @@ const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 50px;
+  margin-top: 30px;
   align-items: center;
   flex-grow: 1;
   overflow: hidden;
