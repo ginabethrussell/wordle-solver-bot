@@ -54,7 +54,8 @@ const MobileButtonContainer = styled.div`
 
 const GameOverMessage = styled.div`
   width: 90%;
-  margin-top: 25px;
+  margin-top: 10px;
+  margin-bottom: 25px;
 `
 interface Props {
   words: string[]
