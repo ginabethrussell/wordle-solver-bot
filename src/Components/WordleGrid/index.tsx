@@ -110,6 +110,7 @@ const handleSubmitHints = () => {
   setCurrentClue([0,0,0,0,0]);
   try {
     const nextGuess = wordleSolver.getGuess();
+    console.log(nextGuess)
     if(!nextGuess) {
       setGameOver(true)
       setError("There are no valid words that match your hints.");
@@ -118,8 +119,10 @@ const handleSubmitHints = () => {
     setCurrentGuess(nextGuess);
     const updatedGuessesList = [...wordGuesses];
     const nextEmptyGuessIndex = updatedGuessesList.indexOf('     ');
+    console.log(nextEmptyGuessIndex)
     if (nextEmptyGuessIndex === -1) {
       setGameOver(true)
+      return;
     }
     updatedGuessesList[nextEmptyGuessIndex]= nextGuess;
     setWordGuesses(updatedGuessesList);
@@ -148,11 +151,11 @@ const handleReset = () => {
   setCurrentClue([0,0,0,0,0]);
   setCurrentIdx(0);
   setGameOver(false);
+  setError('');
   const resetClueArray = JSON.parse(JSON.stringify(initialClueArray));
   setClueArray(resetClueArray);
 }
 
-console.log(wordGuesses)
   return (
   <Game>
     <BoardContainer>
@@ -175,6 +178,7 @@ console.log(wordGuesses)
           variant='contained' 
           color='primary'
           onClick={handleSubmitHints}
+          disabled={gameOver}
         >
           Apply Hints
         </Button>
@@ -182,6 +186,7 @@ console.log(wordGuesses)
           variant='contained'
           color='success'
           onClick={handleWin}
+          disabled={gameOver}
         >
           That's Correct!
         </Button>
@@ -221,12 +226,12 @@ console.log(wordGuesses)
     
       { 
         gameOver && currentClue.join('') === '22222' ? (
-          <Alert style={{position: 'absolute', top: 250, width: '250px'}} severity="success">I won — Thanks for the hints!</Alert>
+          <Alert onClose={handleReset} style={{position: 'absolute', top: 250, width: '250px'}} severity="success">I won — Thanks for the hints!</Alert>
         )
         :  gameOver && error ? (
-          <Alert style={{position: 'absolute', top: 250, width: '250px'}} severity="warning">Hey - I think you aren't giving me valid hints.</Alert>
+          <Alert onClose={handleReset} style={{position: 'absolute', top: 250, width: '250px'}} severity="warning">Hey - I think you aren't giving me valid hints.</Alert>
         ) : gameOver ?  (
-          <Alert style={{position: 'absolute', top: 250, width: '250px'}} severity="error">Oh no! - I lost. Come back and let me try again tomorrow.</Alert>
+          <Alert onClose={handleReset} style={{position: 'absolute', top: 250, width: '250px'}} severity="error">Oh no! - I lost. Would I have gotten it with my next guess - { currentGuess }? Come back and let me try again tomorrow.</Alert>
         )
         : null
       }
